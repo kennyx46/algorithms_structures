@@ -1,0 +1,33 @@
+http://algorithms.tutorialhorizon.com/dynamic-programming-subset-sum-problem/
+
+function subsetSum(ar, sum) {
+  // y - sum
+  // x - array elements
+  var i, j
+  var solution = Array.from(Array(ar.length + 1), () => Array(sum + 1).fill(0))
+  
+  for (i = 1; i <= sum; i++) {
+    solution[0][i] = false
+  }
+  
+  for (i = 0; i <= ar.length; i++) {
+    solution[i][0] = true
+  }
+  
+  for (i = 1; i <= ar.length; i++) {
+    for (j = 1; j <= sum; j++) {
+      solution[i][j] = solution[i - 1][j]
+      
+      if (solution[i][j] === false && j >= ar[i - 1]) {
+        solution[i][j] = solution[i][j] || solution[i - 1][j - ar[i - 1]]
+      }
+    }
+  }
+  
+  console.log(solution)
+  return solution[ar.length][sum]
+
+}
+
+var res = subsetSum([1,2,3,4,5], 6)
+console.log(res)
